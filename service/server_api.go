@@ -147,12 +147,14 @@ func (s *Server) registerHTTP(variant string) {
 	httpGroup := s.api.Group("/http")
 	routeStatus := httpGroup.GET("/status", s.cm.UpstreamCacheHandler(delivery.GetHTTPStatus))
 	routeRaw := httpGroup.GET("/raw", s.cm.UpstreamCacheHandler(delivery.GetHTTPRaw))
-	routeJSON := httpGroup.GET("/formatted", s.cm.UpstreamCacheHandler(delivery.GetHTTPFormatted))
+	routeFormatted := httpGroup.GET("/formatted", s.cm.UpstreamCacheHandler(delivery.GetHTTPFormatted))
+	routeProxy := httpGroup.GET("/proxy", s.cm.UpstreamCacheHandler(delivery.GetHTTPProxy))
 
 	// Register data for config hydration
 	s.configHelper.RegisterTile(http.HTTPStatusTileType, &_httpModels.HTTPStatusParams{}, routeStatus.Path)
 	s.configHelper.RegisterTile(http.HTTPRawTileType, &_httpModels.HTTPRawParams{}, routeRaw.Path)
-	s.configHelper.RegisterTile(http.HTTPFormattedTileType, &_httpModels.HTTPFormattedParams{}, routeJSON.Path)
+	s.configHelper.RegisterTile(http.HTTPFormattedTileType, &_httpModels.HTTPFormattedParams{}, routeFormatted.Path)
+	s.configHelper.RegisterTile(http.HTTPProxyTileType, &_httpModels.HTTPProxyParams{}, routeProxy.Path)
 }
 
 func (s *Server) registerPingdom(variant string) {

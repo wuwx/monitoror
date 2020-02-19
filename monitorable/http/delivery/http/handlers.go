@@ -66,3 +66,19 @@ func (h *HTTPDelivery) GetHTTPFormatted(c echo.Context) error {
 
 	return c.JSON(netHttp.StatusOK, tile)
 }
+
+func (h *HTTPDelivery) GetHTTPProxy(c echo.Context) error {
+	// Bind / Check Params
+	params := &httpModels.HTTPProxyParams{}
+	err := c.Bind(params)
+	if err != nil || !params.IsValid() {
+		return models.QueryParamsError
+	}
+
+	tile, err := h.httpUsecase.HTTPProxy(params)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(netHttp.StatusOK, tile)
+}
