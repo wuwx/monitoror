@@ -17,6 +17,6 @@ func NewHTTPInfoDelivery() *HTTPInfoDelivery {
 }
 
 func (h *HTTPInfoDelivery) GetInfo(c echo.Context) error {
-	response := models.NewInfoResponse(version.Version, version.GitCommit, version.BuildTime)
+	response := models.NewInfoResponse(version.Version, version.Tags, version.GitCommit, version.BuildTime)
 	return c.JSON(http.StatusOK, response)
 }
